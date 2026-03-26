@@ -1,0 +1,29 @@
+name: Lint and Check Code Quality
+
+on:
+  push:
+    branches: [ main, master, second-branch ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Run Ruff linter
+        run: ruff check git/src
+
+      - name: Check Ruff formatting
+        run: ruff format --check git/src
